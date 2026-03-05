@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Energy Monitoring Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: 'var(--primary-color, #9a6bff)',
+              'primary-hover': 'var(--primary-hover, #8558eb)',
+              'sidebar-bg': 'var(--sidebar-bg, #080b1a)',
+              'submenu-bg': 'var(--submenu-bg, #121629)',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      
+      :root {
+        --primary-color: #9a6bff;
+        --primary-hover: #8558eb;
+        --sidebar-bg: #080b1a;
+        --submenu-bg: #121629;
+        --sidebar-border: rgba(255, 255, 255, 0.05);
+        --sidebar-item-hover: rgba(255, 255, 255, 0.05);
+        --sidebar-text: #ffffff;
+        --submenu-item-active: #1e253c;
+        --submenu-text: #94a3b8;
+        --submenu-title: #cbd5e1;
+        --logo-filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      
+      /* 优化滚动条：初始适中（利用透明边框），悬停加粗 */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #e2e3e4;
+        border-radius: 10px;
+        /* 初始状态：视觉宽度 3px (8 - 2.5*2) */
+        border: 2.5px solid transparent;
+        background-clip: padding-box;
+        transition: all 0.2s;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: #94a3b8;
+        /* 悬停状态：视觉宽度 6px (8 - 1*2) */
+        border: 1px solid transparent;
+      }
+      
+      .grid-background {
+        background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+
+      /* 自定义工具提示气泡样式 */
+      .tooltip-bubble {
+        background-color: #080b1a;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+        position: relative;
+        filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.4));
+        pointer-events: none;
+      }
+
+      /* 底部箭头 */
+      .tooltip-arrow-bottom::before {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+        width: 8px;
+        height: 8px;
+        background-color: #080b1a;
+      }
+
+      /* 左侧箭头 - 用于地图左侧按钮 */
+      .tooltip-arrow-left::before {
+        content: '';
+        position: absolute;
+        left: -4px;
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+        width: 8px;
+        height: 8px;
+        background-color: #080b1a;
+      }
+
+      /* Leaflet 自定义样式覆盖 */
+      .leaflet-container {
+        background: #f1f3f6 !important;
+        font-family: inherit;
+      }
+      .custom-div-icon {
+        background: none !important;
+        border: none !important;
+      }
+      .leaflet-tooltip-custom {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+      }
+      
+      /* 状态动画 */
+      @keyframes sonar-wave {
+        0% { transform: scale(0.5); opacity: 1; }
+        100% { transform: scale(2.5); opacity: 0; }
+      }
+      .ping-animation {
+        animation: sonar-wave 2s infinite ease-out;
+      }
+
+      /* 报警闪烁背景动画 */
+      @keyframes alert-flash-bg {
+        0%, 100% { background-color: transparent; }
+        50% { background-color: rgba(244, 63, 94, 0.2); }
+      }
+      .animate-alert-flash {
+        animation: alert-flash-bg 1.5s infinite;
+      }
+    </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "react/": "https://esm.sh/react@^19.2.3/"
+      }
+    }
+    </script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
